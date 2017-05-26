@@ -1,0 +1,30 @@
+{
+  "name": "insight-client-js",
+  "version": "0.1.0",
+  "description": "An Insight API Client",
+  "main": "index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "mocha --opts mocha.conf"
+  },
+  "keywords": [
+    "insight",
+    "bitcoin",
+    "poet"
+  ],
+  "author": "Poet",
+  "license": "MIT",
+  "dependencies": {
+    "isomorphic-fetch": "^2.2.1"
+  },
+  "devDependencies": {
+    "@types/chai": "^3.5.2",
+    "@types/isomorphic-fetch": "0.0.34",
+    "@types/mocha": "^2.2.41",
+    "chai": "^3.5.0",
+    "mocha": "^3.4.2",
+    "ts-node": "^3.0.4",
+    "typescript": "^2.3.3"
+  }
+}
