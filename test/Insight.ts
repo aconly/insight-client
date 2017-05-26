@@ -7,8 +7,8 @@ const address = '1L8WTdh5GLcsnpUv6wsHUka8anFJTL6Mcd'
 const block = 'block'
 const txid = '123'
 
-const liveClient = new InsightClient(ApiMode.Live)
-const testClient = new InsightClient(ApiMode.Test)
+const liveClient = new InsightClient(ApiMode.Live, null)
+const testClient = new InsightClient(ApiMode.Test, null)
 
 describe('Client.Transactions URLs', () => {
   it(`byId.url`, () => {
@@ -40,5 +40,29 @@ describe('Client.Transactions URLs', () => {
       .to.be.equal('https://insight.bitpay.com/api/tx/send')
     expect(testClient.Transactions.send.url())
       .to.be.equal('https://test-insight.bitpay.com/api/tx/send')
+  })
+})
+
+describe('Client.Transactions.fetch', () => {
+  const mockFetch = (url: any, params: any) => {
+    return Promise.resolve({
+      json: () => Promise.resolve({
+        url, params
+      })
+    })
+  }
+
+  const mockClient = new InsightClient(ApiMode.Live, mockFetch)
+
+  it('send.post', async function() {
+    const transaction = await mockClient.Transactions.send.post('rawtxhex')
+    expect(transaction).to.be.deep.equal({
+      url: 'https://insight.bitpay.com/api/tx/send',
+      params: {
+        method: 'POST',
+        body: '{"rawtx":"rawtxhex"}',
+        headers: { 'content-type': 'application/json' }
+      }
+    })
   })
 })

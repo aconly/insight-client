@@ -2,28 +2,29 @@ import 'isomorphic-fetch'
 
 import { ApiMode, WithApiMode } from './ApiMode'
 import { urlObjectToUrl } from './UrlObject'
+import { ClientBase } from './ClientBase'
 
 export type TransactionsByBlockOrAddressQuery = {
   readonly block?: string,
   readonly address?: string
 }
 
-export class Transactions extends WithApiMode {
+export class Transactions extends ClientBase {
   public readonly byId: TransactionById
   public readonly byBlockOrAddress: TransactionsByBlockOrAddress
   public readonly rawById: RawTransactionById
   public readonly send: TransactionSend
 
-  constructor(apiMode: ApiMode) {
-    super(apiMode)
-    this.byId = new TransactionById(apiMode)
+  constructor(apiMode: ApiMode, fetch: any) {
+    super(apiMode, fetch)
+    this.byId = new TransactionById(apiMode, fetch)
     this.byBlockOrAddress = new TransactionsByBlockOrAddress(apiMode)
     this.rawById = new RawTransactionById(apiMode)
-    this.send = new TransactionSend(apiMode)
+    this.send = new TransactionSend(apiMode, fetch)
   }
 }
 
-export class TransactionById extends WithApiMode {
+export class TransactionById extends ClientBase {
 
   public get path() {
     return this.apiUrl + '/tx'
@@ -34,7 +35,7 @@ export class TransactionById extends WithApiMode {
   }
 
   public get(txid: string) {
-    return fetch(this.url(txid))
+    return this.fetch(this.url(txid))
       .then((res: any) => res.json())
   }
 }
@@ -74,7 +75,7 @@ export class RawTransactionById extends WithApiMode {
   }
 }
 
-export class TransactionSend extends WithApiMode {
+export class TransactionSend extends ClientBase {
 
   public get path() {
     return this.apiUrl + '/tx/send'
@@ -85,7 +86,7 @@ export class TransactionSend extends WithApiMode {
   }
 
   public post(rawtx: string) {
-    return fetch(this.url(), {
+    return this.fetch(this.url(), {
       method: 'POST',
       body: JSON.stringify({ rawtx }),
       headers: {
