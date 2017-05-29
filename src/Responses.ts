@@ -1,4 +1,4 @@
-export interface TransactionsByAddress {
+export interface TransactionsByAddressResource {
   readonly pagesTotal: number;
   readonly txs: ReadonlyArray<Transaction>;
 }
@@ -53,4 +53,15 @@ export interface ScriptSig {
   readonly hex: string;
   readonly asm: string;
 
+}
+
+export type UtxosByAddressResponse = ReadonlyArray<UtxoByAddress>
+
+export interface UtxoByAddress {
+  readonly txid: string;
+  readonly vout: number;
+  readonly satoshis: number;
+  readonly confirmations: number;
+  readonly ts: number;
+  readonly amount: number;
 }
