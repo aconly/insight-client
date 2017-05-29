@@ -2,7 +2,7 @@
   "name": "insight-client-js",
   "version": "0.1.0",
   "description": "An Insight API Client",
-  "main": "index.js",
+  "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
@@ -26,5 +26,9 @@
     "mocha": "^3.4.2",
     "ts-node": "^3.0.4",
     "typescript": "^2.3.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/poetapp/insight-client-js"
   }
 }
