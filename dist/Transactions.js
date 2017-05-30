@@ -9,6 +9,7 @@ class Transactions extends ClientBase_1.ClientBase {
         super(apiMode, fetch);
         this.byId = new TransactionById(apiMode, fetch);
         this.byBlockOrAddress = new TransactionsByBlockOrAddress(apiMode);
+        this.byAddress = new TransactionsByAddress(apiMode);
         this.rawById = new RawTransactionById(apiMode);
         this.send = new TransactionSend(apiMode, fetch);
     }
@@ -43,6 +44,24 @@ class TransactionsByBlockOrAddress extends ApiMode_1.WithApiMode {
     }
 }
 exports.TransactionsByBlockOrAddress = TransactionsByBlockOrAddress;
+class TransactionsByAddress extends ApiMode_1.WithApiMode {
+    get path() {
+        return this.apiUrl + '/txs';
+    }
+    url(address) {
+        return UrlObject_1.urlObjectToUrl({
+            url: this.path,
+            query: {
+                address
+            }
+        });
+    }
+    get(address) {
+        return fetch(this.url(address))
+            .then((res) => res.json());
+    }
+}
+exports.TransactionsByAddress = TransactionsByAddress;
 class RawTransactionById extends ApiMode_1.WithApiMode {
     get path() {
         return this.apiUrl + '/rawtx';

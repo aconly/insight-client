@@ -12,6 +12,7 @@ export type TransactionsByBlockOrAddressQuery = {
 export class Transactions extends ClientBase {
   public readonly byId: TransactionById
   public readonly byBlockOrAddress: TransactionsByBlockOrAddress
+  public readonly byAddress: TransactionsByAddress
   public readonly rawById: RawTransactionById
   public readonly send: TransactionSend
 
@@ -19,6 +20,7 @@ export class Transactions extends ClientBase {
     super(apiMode, fetch)
     this.byId = new TransactionById(apiMode, fetch)
     this.byBlockOrAddress = new TransactionsByBlockOrAddress(apiMode)
+    this.byAddress = new TransactionsByAddress(apiMode)
     this.rawById = new RawTransactionById(apiMode)
     this.send = new TransactionSend(apiMode, fetch)
   }
@@ -55,6 +57,27 @@ export class TransactionsByBlockOrAddress extends WithApiMode {
 
   public get(query: TransactionsByBlockOrAddressQuery) {
     return fetch(this.url(query))
+      .then((res: any) => res.json())
+  }
+}
+
+export class TransactionsByAddress extends WithApiMode {
+
+  public get path() {
+    return this.apiUrl + '/txs'
+  }
+
+  public url(address: string) {
+    return urlObjectToUrl({
+      url: this.path,
+      query: {
+        address
+      }
+    })
+  }
+
+  public get(address: string) {
+    return fetch(this.url(address))
       .then((res: any) => res.json())
   }
 }

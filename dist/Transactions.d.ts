@@ -8,6 +8,7 @@ export declare type TransactionsByBlockOrAddressQuery = {
 export declare class Transactions extends ClientBase {
     readonly byId: TransactionById;
     readonly byBlockOrAddress: TransactionsByBlockOrAddress;
+    readonly byAddress: TransactionsByAddress;
     readonly rawById: RawTransactionById;
     readonly send: TransactionSend;
     constructor(apiMode: ApiMode, fetch: any);
@@ -21,6 +22,11 @@ export declare class TransactionsByBlockOrAddress extends WithApiMode {
     readonly path: string;
     url(query: TransactionsByBlockOrAddressQuery): string;
     get(query: TransactionsByBlockOrAddressQuery): Promise<any>;
+}
+export declare class TransactionsByAddress extends WithApiMode {
+    readonly path: string;
+    url(address: string): string;
+    get(address: string): Promise<any>;
 }
 export declare class RawTransactionById extends WithApiMode {
     readonly path: string;
