@@ -78,7 +78,7 @@ class AddressUtxo extends ApiMode_1.WithApiMode {
                 : `${this.apiUrl}/addrs/utxo`;
     }
     get(address) {
-        return fetch(this.url())
+        return fetch(this.url(address))
             .then((res) => res.json());
     }
     post(address) {

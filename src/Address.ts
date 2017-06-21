@@ -100,7 +100,7 @@ export class AddressUtxo extends WithApiMode {
   }
 
   public get(address: string | ReadonlyArray<string>) {
-    return fetch(this.url())
+    return fetch(this.url(address))
       .then((res: any) => res.json())
   }
 
